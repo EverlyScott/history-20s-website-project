@@ -1,0 +1,59 @@
+.article {
+  width: 300px;
+  height: 324px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: filter 200ms !important;
+  display: inline-block !important;
+
+  &:hover {
+    filter: brightness(90%);
+    .articleImg {
+      background-size: 105%;
+    }
+  }
+}
+
+.articleImg {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 4px;
+  width: 300px;
+  height: 150px;
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  transition: background-size 200ms, filter 200ms;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.adText {
+  background-color: #1976d2;
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 4px 8px;
+}
+
+.articleBody {
+  padding: 8px 12px 12px 12px;
+}
+
+.articleTitle {
+  line-height: 1.5rem;
+}
+
+.articleDate {
+  text-transform: uppercase;
+  position: relative;
+  top: -4px;
+}
+
+.articlePreview {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
