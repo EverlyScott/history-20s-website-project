@@ -9,10 +9,13 @@ const Sponsor: React.FC = () => {
     <Layout
       headerTitle={sponsorData.title}
       headerImage={sponsorData.image}
+      headerImagePosition="center 64px"
       headerBlurb={<Typography variant="caption">SPONSORED</Typography>}
     >
       <MetaHead baseTitle={sponsorData.title} />
-      <div className={styles.container}>asdf</div>
+      <div className={styles.container}>
+        <Typography>{sponsorData.data}</Typography>
+      </div>
     </Layout>
   );
 };

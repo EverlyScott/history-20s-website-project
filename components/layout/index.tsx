@@ -3,19 +3,32 @@ import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import styles from "./styles.module.scss";
+import theme from "../theme";
 
 interface IProps extends React.PropsWithChildren {
+  noContainer?: boolean;
   headerTitle: string | React.ReactNode;
   headerLink?: string;
   headerBlurb?: string | React.ReactNode;
   headerImage: string;
+  headerImagePosition?: string | number;
 }
 
-const Layout: React.FC<IProps> = ({ headerTitle, headerLink, headerBlurb, headerImage, children }) => {
-  const [dateFormat, setDateFormat] = useState("MMMM DD, 1923 • hh:mm:ss A");
-  const [date, setDate] = useState(moment().format(dateFormat));
+const Layout: React.FC<IProps> = ({
+  noContainer,
+  headerTitle,
+  headerLink,
+  headerBlurb,
+  headerImage,
+  headerImagePosition,
+  children,
+}) => {
+  const isXsDown = useMediaQuery(theme.breakpoints.down("xs"));
+  const isSmDown = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const [date, setDate] = useState(moment().format(isSmDown ? "MM/DD/1923 HH:mm:ss" : "MMMM DD, 1923 • hh:mm:ss A"));
   const [isRouting, setIsRouting] = useState(false);
 
   const router = useRouter();
@@ -28,28 +41,21 @@ const Layout: React.FC<IProps> = ({ headerTitle, headerLink, headerBlurb, header
   };
 
   useEffect(() => {
-    setDate(moment().format(dateFormat));
+    setDate(moment().format(isSmDown ? "MM/DD/1923 HH:mm:ss" : "MMMM DD, 1923 • hh:mm:ss A"));
 
     router.events.on("routeChangeStart", handleRoutingStart);
     router.events.on("routeChangeComplete", handleRoutingEnd);
 
     const dateInterval = setInterval(() => {
-      setDate(moment().format(dateFormat));
+      setDate(moment().format(isSmDown ? "MM/DD/1923 HH:mm:ss" : "MMMM DD, 1923 • hh:mm:ss A"));
     }, 1000);
-
-    console.log(window.innerWidth);
-    if (window.innerWidth >= 500) {
-      setDateFormat("MMMM DD, 1923 • hh:mm:ss A");
-    } else {
-      setDateFormat("MM/DD/1923 HH:mm:ss");
-    }
 
     return () => {
       router.events.off("routeChangeStart", handleRoutingStart);
       router.events.off("routeChangeComplete", handleRoutingEnd);
       clearInterval(dateInterval);
     };
-  }, [typeof window === "undefined" ? {} : window, typeof window === "undefined" ? 0 : window?.innerWidth, dateFormat]);
+  }, [isSmDown]);
 
   return (
     <>
@@ -57,7 +63,7 @@ const Layout: React.FC<IProps> = ({ headerTitle, headerLink, headerBlurb, header
         <Toolbar>
           <Link href="/" style={{ flexGrow: 1 }}>
             <Typography variant="h6" component="h1">
-              The Monday Record
+              {isXsDown ? "TMR" : "The Monday Record"}
             </Typography>
           </Link>
           <Typography variant="body1">{date}</Typography>
@@ -67,14 +73,17 @@ const Layout: React.FC<IProps> = ({ headerTitle, headerLink, headerBlurb, header
         </Fade>
       </AppBar>
       <LinkOrDiv href={headerLink}>
-        <div className={styles.header} style={{ backgroundImage: `url(${headerImage})` }}>
+        <div
+          className={styles.header}
+          style={{ backgroundImage: `url(${headerImage})`, backgroundPosition: headerImagePosition }}
+        >
           <div className={styles.headerBody}>
             <Typography variant="h2">{headerTitle}</Typography>
             {headerBlurb && <Typography variant="body1">{headerBlurb}</Typography>}
           </div>
         </div>
       </LinkOrDiv>
-      <Container className={styles.container}>{children}</Container>
+      {noContainer ? <div>{children}</div> : <Container className={styles.container}>{children}</Container>}
     </>
   );
 };

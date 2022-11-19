@@ -5,12 +5,13 @@
 }
 
 .header {
-  @media (max-width: 600px) {
+  @media (max-width: 599px) {
     background-size: cover;
     &:hover {
       background-size: cover !important;
     }
   }
+  box-shadow: 0px -2px 10px 5px black;
   height: 564px;
   background-color: rgba(0, 0, 0, 0.1);
   background-position: center;
