@@ -1,4 +1,4 @@
-import { AppBar, Container, Fade, LinearProgress, Toolbar, Typography } from "@mui/material";
+import { AppBar, Container, Fade, IconButton, LinearProgress, Toolbar, Tooltip, Typography } from "@mui/material";
 import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import styles from "./styles.module.scss";
 import theme from "../theme";
+import { GitHub } from "@mui/icons-material";
 
 interface IProps extends React.PropsWithChildren {
   noContainer?: boolean;
@@ -57,6 +58,10 @@ const Layout: React.FC<IProps> = ({
     };
   }, [isSmDown]);
 
+  const openGitHub = () => {
+    open("https://github.com/ScribbleNerd/history-20s-website-project", "_blank");
+  };
+
   return (
     <>
       <AppBar>
@@ -67,6 +72,11 @@ const Layout: React.FC<IProps> = ({
             </Typography>
           </Link>
           <Typography variant="body1">{date}</Typography>
+          <Tooltip title="Check out our code!">
+            <IconButton onClick={openGitHub} sx={{ margin: "0 8px" }}>
+              <GitHub sx={{ color: "#ffffff" }} />
+            </IconButton>
+          </Tooltip>
         </Toolbar>
         <Fade in={isRouting}>
           <LinearProgress className="routing-progress" />

@@ -8,7 +8,7 @@ import Link from "next/link";
 
 //Import images
 import jaywalking from "../../assets/img/automobiles-might-not-be-good-for-us/jaywalking.jpg";
-import accidents from "../../assets/img/automobiles-might-not-be-good-for-us/accidents.jpeg";
+import accidents from "../../assets/img/automobiles-might-not-be-good-for-us/accidents.jpg";
 import family from "../../assets/img/automobiles-might-not-be-good-for-us/family.jpg";
 import pollution from "../../assets/img/automobiles-might-not-be-good-for-us/pollution.jpg";
 
